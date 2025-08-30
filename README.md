@@ -36,6 +36,29 @@ pnpm add frontix
 
 ---
 
+## 🚀 Quick Start
+
+```typescript
+import { truncate, validateEmail, timeAgo, deepClone } from "frontix";
+
+// String utilities
+const shortText = truncate("This is a very long text that needs truncating", 20);
+// "This is a very long..."
+
+// Validation
+const isValidEmail = validateEmail("user@example.com"); // true
+
+// Date utilities
+const relativeTime = timeAgo("2025-01-14T10:00:00Z"); // "1 day ago"
+
+// Deep cloning
+const original = { user: { name: "John", settings: { theme: "dark" } } };
+const cloned = deepClone(original);
+cloned.user.settings.theme = "light"; // Original unchanged
+```
+
+---
+
 ## 🛠️ Utilities
 
 ### ✅ **Phase 1 - Production Ready**
