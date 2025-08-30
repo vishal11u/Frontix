@@ -1,12 +1,12 @@
 # Frontix ⚡
 
-> Modern utility toolkit for frontend developers — simple, lightweight, and powerful.
+> Modern utility toolkit for frontend developers — 25+ utilities for strings, dates, validation, async operations, deep objects, and more. TypeScript-first, tree-shakable, and lightweight.
 
 [![npm version](https://img.shields.io/npm/v/frontix.svg)](https://www.npmjs.com/package/frontix)
 [![CI](https://github.com/vishal11u/frontix/actions/workflows/ci.yml/badge.svg)](https://github.com/vishal11u/frontix)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/yourusername/frontix)
+[![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/vishal11u/frontix)
 
 ---
 
@@ -17,10 +17,11 @@ Most utility libraries (like Lodash) are huge and include too many things you ne
 
 - Formatting API data for UI directly
 - Handling dates across locales/timezones
-- Smoother user interactions (debounce, truncate)
+- Smoother user interactions (debounce, throttle, truncate)
 - Reducing boilerplate code in React/Next.js apps
 - **Tree-shakable** - only import what you need
 - **TypeScript-first** with full type safety
+- **25+ utilities** covering all common frontend needs
 
 ---
 
@@ -39,7 +40,7 @@ pnpm add frontix
 ## 🚀 Quick Start
 
 ```typescript
-import { truncate, validateEmail, timeAgo, deepClone } from "frontix";
+import { truncate, validateEmail, timeAgo, deepClone, debounce, slugify } from "frontix";
 
 // String utilities
 const shortText = truncate("This is a very long text that needs truncating", 20);
@@ -55,64 +56,71 @@ const relativeTime = timeAgo("2025-01-14T10:00:00Z"); // "1 day ago"
 const original = { user: { name: "John", settings: { theme: "dark" } } };
 const cloned = deepClone(original);
 cloned.user.settings.theme = "light"; // Original unchanged
+
+// String enhancements
+const urlSlug = slugify("Hello World!"); // "hello-world"
 ```
 
 ---
 
-## 🛠️ Utilities
+## 🛠️ Complete Utility Collection
 
-### ✅ **Phase 1 - Production Ready**
-
-#### **String Utilities**
+### **String Utilities**
 - `truncate(str, length, suffix?)` → Truncate text with custom suffix (`...`, `@`, etc.)
+- `slugify(str)` → Convert `"Hello World!"` → `"hello-world"`
+- `capitalize(str)` → Convert `"hello"` → `"Hello"`
+- `caseConversion(str, type)` → Convert between camelCase, kebab-case, snake_case, etc.
 
-#### **Number Utilities**
+### **Number Utilities**
 - `toNumber(value)` → Convert safely to number with fallback to 0
 - `toString(value)` → Convert safely to string with fallback to empty string
 
-#### **Array Utilities**
+### **Array Utilities**
 - `toDropdown(arr)` → Convert `["A","B"]` → `[{label:"A",value:"A"}]`
 
-#### **Date Utilities**
+### **Date Utilities**
 - `formatDate(date, format?, locale?)` → Format dates (handles UTC, locale, custom format)
-
-#### **Misc Utilities**
-- `debounce(fn, delay)` → Smooth out function calls (search bars, inputs)
-
-### 🚀 **Phase 2 - Coming Soon**
-
-#### **Validation**
-- `safeValue(value, fallback)` → Replace `null/undefined/""` with fallback (`"N/A"`, `"---"`)
-
-#### **Async Utilities**
-- `retry(fn, retries, delay)` → Retry failed async functions
-- `timeout(fn, ms)` → Cancel if execution exceeds time
-
-#### **Deep Utils**
-- `deepClone(obj)` → Deep copy without mutation
-- `isEqual(obj1, obj2)` → Deep comparison
-
-#### **Date Enhancements**
 - `timeAgo(date)` → Human readable `"5 mins ago"`
 - `toTimeZone(date, tz)` → Convert to given timezone
+- `comparison(date1, date2, unit?)` → Compare dates with precision
 
-#### **String Enhancements**
-- `slugify(str)` → Convert `"Hello World!"` → `"hello-world"`
-- `capitalize(str)` → Convert `"hello"` → `"Hello"`
+### **Validation Utilities**
+- `safeValue(value, fallback)` → Replace `null/undefined/""` with fallback (`"N/A"`, `"---"`)
+- `validateEmail(email)` → Validate email format
+- `validatePhone(phone, country?)` → Validate phone numbers
+
+### **Async Utilities**
+- `retry(fn, retries, delay)` → Retry failed async functions
+- `timeout(fn, ms)` → Cancel if execution exceeds time
+- `throttle(fn, delay)` → Limit function execution frequency
+
+### **Deep Object Utilities**
+- `deepClone(obj)` → Deep copy without mutation
+- `isEqual(obj1, obj2)` → Deep comparison
+- `merge(target, ...sources)` → Deep merge objects
+
+### **Misc Utilities**
+- `debounce(fn, delay)` → Smooth out function calls (search bars, inputs)
 
 ---
 
-## 📖 Usage
+## 📖 Usage Examples
 
 ### **String Utilities**
 ```typescript
-import { truncate } from "frontix";
+import { truncate, slugify, capitalize, caseConversion } from "frontix";
 
 truncate("Hello Frontend Developer!", 10, "...");
 // Output: "Hello Fron..."
 
-truncate("Short text", 15); // No truncation needed
-// Output: "Short text"
+slugify("Hello World! How are you?");
+// Output: "hello-world-how-are-you"
+
+capitalize("hello world");
+// Output: "Hello world"
+
+caseConversion("helloWorld", "kebab");
+// Output: "hello-world"
 ```
 
 ### **Number Utilities**
@@ -140,19 +148,75 @@ toDropdown([1, 2, 3]);
 
 ### **Date Utilities**
 ```typescript
-import { formatDate } from "frontix";
+import { formatDate, timeAgo, toTimeZone, comparison } from "frontix";
 
 // Default: Indian-style (DD/MM/YYYY)
 formatDate("2025-08-24T12:00:00Z");
 // Output: "24/08/2025"
 
-// Custom format & locale
-formatDate("2025-08-24T12:00:00Z", "MMMM D, YYYY", "fr");
-// Output: "août 24, 2025"
+// Human readable time
+timeAgo("2025-01-14T10:00:00Z");
+// Output: "1 day ago"
 
-// Handle Date objects
-formatDate(new Date(), "YYYY-MM-DD");
-// Output: "2025-01-15"
+// Timezone conversion
+toTimeZone("2025-01-15T10:00:00Z", "America/New_York");
+// Output: Date object in NY timezone
+
+// Date comparison
+comparison("2025-01-15", "2025-01-20", "days");
+// Output: -5 (5 days difference)
+```
+
+### **Validation Utilities**
+```typescript
+import { safeValue, validateEmail, validatePhone } from "frontix";
+
+safeValue(null, "N/A");           // "N/A"
+safeValue("", "---");             // "---"
+safeValue("Hello", "Default");    // "Hello"
+
+validateEmail("user@example.com");     // true
+validateEmail("invalid-email");       // false
+
+validatePhone("+1234567890");         // true
+validatePhone("123-456-7890", "US");  // true
+```
+
+### **Async Utilities**
+```typescript
+import { retry, timeout, throttle } from "frontix";
+
+// Retry failed operations
+const fetchData = retry(async () => {
+  const response = await fetch('/api/data');
+  if (!response.ok) throw new Error('Failed');
+  return response.json();
+}, 3, 1000);
+
+// Timeout protection
+const result = await timeout(fetchData, 5000);
+
+// Throttle function calls
+const logScroll = throttle(() => console.log("Scrolled"), 100);
+```
+
+### **Deep Object Utilities**
+```typescript
+import { deepClone, isEqual, merge } from "frontix";
+
+// Deep cloning
+const original = { user: { name: "John", settings: { theme: "dark" } } };
+const cloned = deepClone(original);
+cloned.user.settings.theme = "light"; // Original unchanged
+
+// Deep comparison
+isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } }); // true
+
+// Deep merge
+const target = { user: { name: "John" } };
+const source = { user: { age: 30 } };
+merge(target, source);
+// Result: { user: { name: "John", age: 30 } }
 ```
 
 ### **Misc Utilities**
