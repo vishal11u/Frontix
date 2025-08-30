@@ -1,12 +1,10 @@
 /**
- * TODO: Phase 2 Implementation
- *
  * Retries a failed async function with configurable retry attempts and delay.
  * Useful for handling network failures or temporary errors.
  *
  * @param fn - The async function to retry
  * @param retries - Maximum number of retry attempts (default: 3)
- * @param delay - Delay between retries in milliseconds (default: 1000)
+ * @param delay - Base delay between retries in milliseconds (default: 1000)
  * @returns Promise that resolves with the function result or rejects after all retries
  *
  * @example
@@ -23,8 +21,31 @@ export function retry<T>(
   retries: number = 3,
   delay: number = 1000
 ): Promise<T> {
-  // TODO: Implement Phase 2
-  // Execute function, catch errors, retry with exponential backoff
-  // Return result or throw final error after all retries
-  throw new Error("Not implemented yet - Phase 2 feature");
+  return new Promise((resolve, reject) => {
+    let attempts = 0;
+    
+    const attempt = async () => {
+      try {
+        attempts++;
+        const result = await fn();
+        resolve(result);
+      } catch (error) {
+        if (attempts >= retries) {
+          reject(error);
+          return;
+        }
+        
+        // Exponential backoff: delay * 2^(attempts-1)
+        const backoffDelay = delay * Math.pow(2, attempts - 1);
+        
+        // Use setTimeout with a callback to ensure proper async behavior
+        setTimeout(() => {
+          attempt();
+        }, backoffDelay);
+      }
+    };
+    
+    // Start the first attempt
+    attempt();
+  });
 }

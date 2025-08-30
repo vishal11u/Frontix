@@ -1,29 +1,39 @@
 /**
- * TODO: Phase 2 Implementation
- *
  * Converts a date to a specific timezone.
+ * Returns the date in the target timezone with proper formatting.
  *
  * @param date - The date to convert
- * @param timezone - The target timezone (e.g., "America/New_York", "Europe/London")
- * @returns The date converted to the specified timezone
+ * @param timeZone - The target timezone (e.g., 'America/New_York', 'Europe/London')
+ * @param options - Intl.DateTimeFormatOptions for formatting
+ * @returns Formatted date string in the target timezone
  *
  * @example
  * ```typescript
- * toTimeZone(new Date('2023-01-01T12:00:00Z'), 'America/New_York');
- * // Returns date in EST/EDT
- *
- * toTimeZone('2023-01-01T12:00:00Z', 'Asia/Tokyo');
- * // Returns date in JST
+ * toTimeZone(new Date(), 'America/New_York');           // "1/15/2024, 10:30:00 AM EST"
+ * toTimeZone(new Date(), 'Europe/London', { 
+ *   dateStyle: 'full' 
+ * });                                                    // "Monday, January 15, 2024"
  * ```
  */
 export function toTimeZone(
-  date: Date | string | number,
-  timezone: string
-): Date {
-  // TODO: Implement Phase 2
-  // Use dayjs timezone plugin or native Intl.DateTimeFormat
-  // Validate timezone string
-  // Handle daylight saving time
-  // Return date in specified timezone
-  throw new Error("Not implemented yet - Phase 2 feature");
+  date: Date | number,
+  timeZone: string,
+  options: Intl.DateTimeFormatOptions = {}
+): string {
+  const targetDate = new Date(date);
+  
+  try {
+    // Use Intl.DateTimeFormat for timezone conversion
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      ...options
+    });
+    
+    return formatter.format(targetDate);
+  } catch (error) {
+    // Fallback if timezone is invalid
+    console.warn(`Invalid timezone: ${timeZone}. Using local timezone.`);
+    const fallbackFormatter = new Intl.DateTimeFormat('en-US', options);
+    return fallbackFormatter.format(targetDate);
+  }
 }

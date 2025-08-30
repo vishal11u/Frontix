@@ -1,6 +1,4 @@
 /**
- * TODO: Phase 2 Implementation
- *
  * Replaces null, undefined, or empty string values with a fallback value.
  * Useful for displaying "N/A" or "---" in UI components.
  *
@@ -18,8 +16,15 @@
  * ```
  */
 export function safeValue<T>(value: T, fallback: T): T {
-  // TODO: Implement Phase 2
   // Check if value is null, undefined, or empty string
-  // Return fallback if invalid, otherwise return original value
-  throw new Error("Not implemented yet - Phase 2 feature");
+  if (value === null || value === undefined) {
+    return fallback;
+  }
+  
+  // Check for empty string
+  if (typeof value === 'string' && value.trim() === '') {
+    return fallback;
+  }
+  
+  return value;
 }

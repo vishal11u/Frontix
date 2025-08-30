@@ -1,8 +1,6 @@
 /**
- * TODO: Phase 2 Implementation
- *
- * Executes a function with a timeout. If the function takes longer than the specified time,
- * it will be cancelled and the promise will reject.
+ * Executes a function with a timeout. If the function doesn't complete within
+ * the specified time, it rejects with a timeout error.
  *
  * @param fn - The async function to execute
  * @param ms - Timeout in milliseconds
@@ -10,16 +8,29 @@
  *
  * @example
  * ```typescript
- * const result = await timeout(async () => {
- *   const data = await fetch('/api/slow-endpoint');
- *   return data.json();
- * }, 5000); // 5 second timeout
+ * const result = await timeout(
+ *   async () => await fetch('/api/slow-endpoint'),
+ *   5000
+ * );
  * ```
  */
-export function timeout<T>(fn: () => Promise<T>, ms: number): Promise<T> {
-  // TODO: Implement Phase 2
-  // Create a promise that rejects after ms milliseconds
-  // Race between the function execution and the timeout
-  // Return the result or throw timeout error
-  throw new Error("Not implemented yet - Phase 2 feature");
+export function timeout<T>(
+  fn: () => Promise<T>,
+  ms: number
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`Operation timed out after ${ms}ms`));
+    }, ms);
+    
+    fn()
+      .then((result) => {
+        clearTimeout(timer);
+        resolve(result);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
+  });
 }

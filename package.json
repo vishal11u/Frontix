@@ -1,6 +1,6 @@
 {
   "name": "frontix",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Modern utility toolkit for frontend developers — simple, lightweight, and powerful",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -37,7 +37,15 @@
     "array-utils",
     "number-utils",
     "debounce",
-    "format-date"
+    "format-date",
+    "validation",
+    "async-utils",
+    "deep-clone",
+    "deep-merge",
+    "case-conversion",
+    "slugify",
+    "phone-validation",
+    "email-validation"
   ],
   "author": "Vishal",
   "license": "MIT",
