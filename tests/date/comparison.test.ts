@@ -44,11 +44,30 @@ describe('Date Comparison Functions', () => {
       // Test a few days around today
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
+      
+      expect(isThisWeek(yesterday)).toBe(true);
+      
+      // Only test tomorrow if it's actually in the current week
+      // (e.g., if today is Saturday, tomorrow is Sunday which starts next week)
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
       
-      expect(isThisWeek(yesterday)).toBe(true);
-      expect(isThisWeek(tomorrow)).toBe(true);
+      // Check if tomorrow is in the same week as today
+      const todayWeekStart = new Date(today);
+      const dayOfWeek = today.getDay();
+      todayWeekStart.setDate(today.getDate() - dayOfWeek);
+      todayWeekStart.setHours(0, 0, 0, 0);
+      
+      const tomorrowWeekStart = new Date(tomorrow);
+      const tomorrowDayOfWeek = tomorrow.getDay();
+      tomorrowWeekStart.setDate(tomorrow.getDate() - tomorrowDayOfWeek);
+      tomorrowWeekStart.setHours(0, 0, 0, 0);
+      
+      if (todayWeekStart.getTime() === tomorrowWeekStart.getTime()) {
+        expect(isThisWeek(tomorrow)).toBe(true);
+      } else {
+        expect(isThisWeek(tomorrow)).toBe(false);
+      }
     });
 
     it('should return false for dates outside current week', () => {
