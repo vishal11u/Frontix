@@ -70,13 +70,14 @@
   },
   "homepage": "https://github.com/vishal11u/frontix#readme",
   "dependencies": {
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "frontix": "^1.1.1"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.40.0",
     "@typescript-eslint/parser": "^8.40.0",
-    "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.0.0",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
