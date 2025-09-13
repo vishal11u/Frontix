@@ -1,6 +1,6 @@
 {
   "name": "frontix",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Modern utility toolkit for frontend developers — 25+ utilities for strings, dates, validation, async operations, deep objects, and more. TypeScript-first, tree-shakable, and lightweight. Includes debounce, throttle, deep cloning, date formatting, validation, and more.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
