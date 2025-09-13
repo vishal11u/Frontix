@@ -71,7 +71,7 @@
   "homepage": "https://github.com/vishal11u/frontix#readme",
   "dependencies": {
     "dayjs": "^1.11.13",
-    "frontix": "^1.1.1"
+    "frontix": "^1.1.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
